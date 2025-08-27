@@ -1,0 +1,25 @@
+
+> blogsphere-backend@1.0.0 start
+> node index.js
+
+JWT_SECRET from .env: 5ib1agnCKQeqx0tp1hKvhsVwntYRlnR0I7nvzTkfgYs=
+Serveur démarré sur http://localhost:3002
+✅ MongoDB connecté avec succès !
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles
+GET /api/articles/68af884d06df67b6d559e70d
+GET /api/articles
+POST /api/users/login
+Login attempt received.
+Searching for user: eterye@gmail.com
+User found. Comparing password...
+Password matched. Generating token...
+GET /api/articles
+GET /api/articles/68af884d06df67b6d559e70d
+GET /api/articles

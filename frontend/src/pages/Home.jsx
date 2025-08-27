@@ -1,31 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
-const articles = [
-  {
-    id: 1,
-    title: "Mon premier article",
-    summary: "Découvrez l’essentiel de mon premier article sur le développement web.",
-    image: "https://picsum.photos/600/400?random=1",
-  },
-  {
-    id: 2,
-    title: "React et Tailwind",
-    summary: "Apprenez à créer des interfaces modernes avec React et Tailwind CSS.",
-    image: "https://picsum.photos/600/400?random=2",
-  },
-  {
-    id: 3,
-    title: "Les secrets de Node.js",
-    summary: "Pourquoi Node.js est idéal pour créer des API rapides et efficaces.",
-    image: "https://picsum.photos/600/400?random=3",
-  },
-];
+import axios from "axios";
+import { Link } from "react-router-dom"; // Import Link
+import ArticleCard from "../components/ArticleCard"; // Assuming you have an ArticleCard component
 
 const Home = () => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await axios.get("http://localhost:3002/api/articles");
+        setArticles(response.data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-10">Chargement des articles...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">Erreur lors du chargement des articles: {error.message}</div>;
+  }
+
   return (
-    // Suppression de la div englobante inutile puisque le layout est géré par App.jsx
-    // Le fond gris (bg-gray-50) est déplacé dans App.jsx pour être cohérent sur toutes les pages
     <>
       {/* Hero Section Améliorée */}
 <section className="relative py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
@@ -112,33 +119,37 @@ const Home = () => {
 
       {/* Articles Grid */}
       <main id="articles" className="container mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-10">
-          {articles.map((article) => (
-            <motion.div
-              key={article.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col"
-              whileHover={{ scale: 1.05 }}
-            >
-              <img
-                src={article.image}
-                alt={article.title}
-                className="w-full h-72 md:h-80 lg:h-96 object-cover object-center"
-              />
-              <div className="p-6 flex flex-col flex-1 justify-between">
-                <div>
-                  <h3 className="text-2xl font-semibold mb-2 text-gray-900">{article.title}</h3>
-                  <p className="text-gray-600 mb-4">{article.summary}</p>
+        {articles.length === 0 ? (
+          <p className="text-center text-gray-600">Aucun article disponible pour le moment.</p>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-10">
+            {articles.map((article) => (
+              <motion.div
+                key={article._id}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col"
+                whileHover={{ scale: 1.05 }}
+              >
+                <img
+                  src={article.imageUrl || "https://picsum.photos/600/400?random=" + article._id}
+                  alt={article.title}
+                  className="w-full h-72 md:h-80 lg:h-96 object-cover object-center"
+                />
+                <div className="p-6 flex flex-col flex-1 justify-between">
+                  <div>
+                    <h3 className="text-2xl font-semibold mb-2 text-gray-900">{article.title}</h3>
+                    <p className="text-gray-600 mb-4">{article.content.substring(0, 150)}...</p> {/* Using content as excerpt */}
+                  </div>
+                  <Link
+                    to={`/article/${article._id}`}
+                    className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+                  >
+                    Lire plus →
+                  </Link>
                 </div>
-                <a
-                  href={`/article/${article.id}`} // Lien vers la page article (à adapter)
-                  className="mt-auto inline-block text-center px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-                >
-                  Lire plus →
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </main>
 
       {/* CTA Section */}

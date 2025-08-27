@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Editor from "./pages/Editor"; // Importez le composant Editor
 import Article from "./pages/Article";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
@@ -23,6 +24,7 @@ function App() {
             <Route path="/article/:id" element={<Article />} />
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/editor" element={<Editor />} />
           </Routes>
         </main>
       </div>

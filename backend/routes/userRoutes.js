@@ -15,6 +15,7 @@ const generateToken = (id) => {
 // @route   POST /api/users/register
 // @access  Public
 router.post('/register', async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Temporaire pour le débogage CORS
   const { username, email, password } = req.body;
 
   try {
@@ -51,24 +52,36 @@ router.post('/register', async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 router.post('/login', async (req, res) => {
+  console.log('Login attempt received.'); // Debugging
   const { email, password } = req.body;
 
   try {
+    console.log('Searching for user:', email); // Debugging
     const user = await User.findOne({ email });
 
-    if (user && (await user.comparePassword(password))) {
-      res.json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
-        profilePicture: user.profilePicture,
-        token: generateToken(user._id),
-      });
+    if (user) {
+      console.log('User found. Comparing password...'); // Debugging
+      // Use comparePassword from User model
+      if (await user.comparePassword(password)) {
+        console.log('Password matched. Generating token...'); // Debugging
+        res.json({
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          bio: user.bio,
+          profilePicture: user.profilePicture,
+          token: generateToken(user._id),
+        });
+      } else {
+        console.log('Password did not match.'); // Debugging
+        res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+      }
     } else {
+      console.log('User not found.'); // Debugging
       res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
   } catch (error) {
+    console.error('Login server error:', error); // Debugging
     res.status(500).json({ message: 'Erreur du serveur', error: error.message });
   }
 });

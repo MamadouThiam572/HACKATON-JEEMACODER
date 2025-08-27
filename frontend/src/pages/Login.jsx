@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { useAuth } from "../components/Context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ email });
+    try {
+      const res = await axios.post("http://localhost:3002/api/users/login", {
+        email,
+        password,
+      });
+      login(res.data, res.data.token);
+      navigate("/"); // Redirect to home page after successful login
+    } catch (err) {
+      console.error(err.response.data);
+      alert(err.response.data.message || "Erreur de connexion.");
+    }
   };
 
   return (
