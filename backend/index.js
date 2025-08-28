@@ -4,6 +4,7 @@ const cors = require('cors'); // Importation du module cors
 
 dotenv.config(); // Charge les variables du fichier .env
 console.log('JWT_SECRET from .env:', process.env.JWT_SECRET); // Debugging JWT_SECRET
+console.log('MONGODB_URI from process.env:', process.env.MONGODB_URI); // Debugging MONGODB_URI
 
 const app = express();
 app.use(cors({ origin: '*' })); // Utilisation du middleware cors pour autoriser toutes les origines (pour le débogage)
