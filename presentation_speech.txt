@@ -1,0 +1,24 @@
+Bonjour à toutes et à tous,
+
+Je suis ravi de vous présenter **BlogSphere**, notre projet développé dans le cadre de ce hackathon.
+
+**BlogSphere** est une plateforme de blogging moderne et intuitive, conçue pour permettre aux utilisateurs de créer, partager et interagir facilement avec du contenu écrit. Notre objectif était de construire une solution complète, de la gestion des utilisateurs à la publication d'articles, en passant par les interactions sociales.
+
+**Qu'avons-nous réalisé jusqu'à présent ?**
+
+Nous avons mis en place les fonctionnalités clés qui constituent le cœur d'une plateforme de blogging :
+
+1.  **Gestion des utilisateurs :** Les utilisateurs peuvent s'inscrire, se connecter et gérer leur profil. L'authentification est sécurisée, et chaque utilisateur dispose de son propre espace.
+2.  **Création et gestion d'articles :** Les auteurs peuvent rédiger des articles grâce à un éditeur de texte riche, les publier, les modifier ou les supprimer. Chaque article peut inclure des images, gérées via Cloudinary pour une meilleure performance et un stockage efficace.
+3.  **Interaction sociale :** Les lecteurs peuvent consulter les articles, laisser des commentaires et exprimer leur appréciation via un système de "likes".
+4.  **Une interface utilisateur réactive :** Le frontend est construit avec React, offrant une expérience fluide et dynamique, avec des pages dédiées pour l'accueil, la connexion, l'inscription, le profil utilisateur, l'édition d'articles et la visualisation détaillée des articles.
+
+**Sur le plan technique,** BlogSphere est une application full-stack robuste. Le backend est développé avec Node.js et Express.js, utilisant MongoDB comme base de données pour une flexibilité maximale. Le frontend est propulsé par React, garantissant une interface utilisateur moderne et performante. Nous avons également intégré Cloudinary pour la gestion des médias, et Multer pour l'upload des fichiers.
+
+**État actuel et perspectives :**
+
+Étant un projet de hackathon, nous avons priorisé l'implémentation des fonctionnalités essentielles. La base est solide et fonctionnelle. Bien que les fonctionnalités principales soient opérationnelles, il reste bien sûr des pistes d'amélioration et d'expansion. Par exemple, nous pourrions envisager d'ajouter des catégories d'articles, une fonction de recherche avancée, ou encore des notifications en temps réel.
+
+Nous sommes fiers du chemin parcouru en si peu de temps et de la fondation que nous avons bâtie pour BlogSphere.
+
+Merci de votre attention. Je suis maintenant disponible pour répondre à vos questions.
