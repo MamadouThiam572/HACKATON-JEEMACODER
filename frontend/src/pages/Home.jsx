@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/api/articles");
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/articles`);
         setArticles(response.data);
       } catch (err) {
         setError(err);

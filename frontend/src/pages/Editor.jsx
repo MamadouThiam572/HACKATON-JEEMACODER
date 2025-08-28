@@ -18,7 +18,7 @@ export default function Editor() {
           Authorization: `Bearer ${token}`,
         },
       };
-      const res = await axios.post('http://localhost:3002/api/articles', { title, content }, config);
+      const res = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/articles`, { title, content }, config);
       console.log('Article created:', res.data);
       alert('Article créé avec succès !');
       navigate('/'); // Redirect to home or article list

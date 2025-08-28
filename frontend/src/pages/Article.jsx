@@ -98,7 +98,7 @@ export default function Article() {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?")) {
         try {
             const config = { headers: { Authorization: `Bearer ${token}` } };
-            await axios.delete(`http://localhost:3002/api/comments/${commentId}`, config);
+            await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/comments/${commentId}`, config);
             setComments(comments.filter(c => c._id !== commentId));
         } catch (err) {
             console.error("Erreur lors de la suppression du commentaire:", err);

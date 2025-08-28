@@ -26,7 +26,7 @@ export default function Profile() {
         setProfile(profileResponse.data);
 
         // Fetch all articles and filter
-        const articlesResponse = await axios.get("http://localhost:3002/api/articles");
+        const articlesResponse = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/articles`);
         const userArticles = articlesResponse.data.filter(
           (article) => article.author._id === profileResponse.data._id
         );

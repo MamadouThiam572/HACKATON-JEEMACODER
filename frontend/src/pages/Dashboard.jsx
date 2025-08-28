@@ -80,7 +80,7 @@ export default function Dashboard() {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
       try {
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        await axios.delete(`http://localhost:3002/api/articles/${articleId}`, config);
+        await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/articles/${articleId}`, config);
         setArticles(articles.filter(a => a._id !== articleId));
         alert("Article supprimé.");
       } catch (err) {
