@@ -16,8 +16,9 @@ router.post('/', auth, async (req, res) => {
         });
 
         await comment.save();
-        console.log('Commentaire sauvegardé :', comment); // Ligne de débogage
-        res.status(201).send(comment);
+        const populatedComment = await Comment.findById(comment._id).populate('author', 'username');
+        console.log('Commentaire sauvegardé :', populatedComment); // Ligne de débogage
+        res.status(201).send(populatedComment);
     } catch (error) {
         console.error('Erreur lors de la sauvegarde du commentaire :', error); // Ligne de débogage
         res.status(400).send({ error: error.message });
@@ -34,6 +35,37 @@ router.get('/article/:articleId', async (req, res) => {
         res.send(comments);
     } catch (error) {
         console.error('Erreur lors de la récupération des commentaires :', error); // Ligne de débogage
+        res.status(500).send({ error: error.message });
+    }
+});
+
+// POST /api/comments/:id/like - Aimer/Désaimer un commentaire
+router.post('/:id/like', auth, async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.id);
+        if (!comment) {
+            return res.status(404).send({ error: 'Commentaire non trouvé.' });
+        }
+
+        const userId = req.user.id;
+        const isLiked = comment.likes.includes(userId);
+
+        if (isLiked) {
+            // Retirer le like
+            comment.likes.pull(userId);
+        } else {
+            // Ajouter le like
+            comment.likes.push(userId);
+        }
+
+        await comment.save();
+
+        // Renvoyer le commentaire mis à jour avec les informations de l'auteur
+        const populatedComment = await Comment.findById(comment._id).populate('author', 'username');
+        
+        res.send(populatedComment);
+
+    } catch (error) {
         res.status(500).send({ error: error.message });
     }
 });

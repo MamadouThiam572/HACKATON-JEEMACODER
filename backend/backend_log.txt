@@ -23,3 +23,8 @@ Password matched. Generating token...
 GET /api/articles
 GET /api/articles/68af884d06df67b6d559e70d
 GET /api/articles
+GET /api/articles
+GET /api/articles/68af884d06df67b6d559e70d
+GET /api/articles
+GET /api/articles
+Terminated

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { Link } from "react-router-dom"; // Import Link
-import ArticleCard from "../components/ArticleCard"; // Assuming you have an ArticleCard component
+import { useAuth } from "../components/Context/AuthContext"; // Import useAuth
 
 const Home = () => {
+  const { user } = useAuth(); // Get user from AuthContext
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,7 +38,7 @@ const Home = () => {
       {/* Hero Section Améliorée */}
 <section className="relative py-24 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
   {/* Element décoratif */}
-  <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_1px_1px, rgba(255,255,255,0.15)_1px,transparent_0)] bg-[size:40px_40px]"></div>
+  <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.15)_1px,transparent_0)] bg-[size:40px_40px]"></div>
 
   <div className="container mx-auto px-6 relative z-10">
     <div className="text-center max-w-3xl mx-auto">
@@ -68,7 +69,7 @@ const Home = () => {
         <motion.a
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="/register"
+          href={user ? "/editor" : "/register"}
           className="px-8 py-4 bg-white text-slate-900 font-bold rounded-full shadow-2xl hover:bg-gray-100 transition-colors duration-300 text-lg"
         >
           Commencer à écrire

@@ -2,51 +2,50 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
 
-export default function AuthProvider({ children }) {
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // État de chargement initial
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true); // Add loading state
 
-  // Vérifier au chargement si un token est déjà stocké
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    if (token && userData) {
-      try {
-        setUser(JSON.parse(userData)); // Essayez de parser les données utilisateur
-      } catch (error) {
-        console.error("Error parsing user data from localStorage:", error);
-        logout(); // En cas d'erreur, déconnectez pour nettoyer
+    try {
+      const storedUser = localStorage.getItem("user");
+      const storedToken = localStorage.getItem("token");
+      if (storedUser && storedToken) {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
       }
+    } catch (error) {
+      console.error("Failed to parse auth data from localStorage", error);
+      // Clear corrupted storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    } finally {
+      setLoading(false); // Finish loading
     }
-    setLoading(false); // Fin du chargement initial
   }, []);
 
   const login = (userData, token) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData)); // Stockez les infos user
     setUser(userData);
+    setToken(token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("token", token);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
     setUser(null);
-  };
-
-  const value = {
-    user,
-    login,
-    logout,
-    loading // Exportez l'état loading si besoin (pour afficher un spinner)
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export default AuthProvider;

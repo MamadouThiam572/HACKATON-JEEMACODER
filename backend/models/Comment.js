@@ -16,6 +16,10 @@ const commentSchema = new Schema({
         ref: 'Article', // Référence au modèle Article
         required: true
     },
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,34 +1,38 @@
 import { Routes, Route } from "react-router-dom";
+import { useAuth } from "./components/Context/AuthContext";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Article from "./pages/Article";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Editor from "./pages/Editor"; // Importez le composant Editor
-import Article from "./pages/Article";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
-import Navbar from "./components/Navbar";
-// Importez le AuthProvider
-import AuthProvider from "./components/Context/AuthContext"; 
+import Editor from "./pages/Editor";
 
 function App() {
-  return (
-    // Enrobez toute l'application avec le AuthProvider
-    <AuthProvider>
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1 container mx-auto px-4 py-6">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/article/:id" element={<Article />} />
-            <Route path="/profile/:username" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/editor" element={<Editor />} />
-          </Routes>
-        </main>
+  const { loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Chargement de l'application...</p>
       </div>
-    </AuthProvider>
+    );
+  }
+
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/article/:id" element={<Article />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/editor" element={<Editor />} />
+      </Routes>
+    </>
   );
 }
 
