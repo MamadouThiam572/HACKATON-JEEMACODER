@@ -9,7 +9,7 @@ const app = express();
 app.use(cors({ origin: '*' })); // Utilisation du middleware cors pour autoriser toutes les origines (pour le débogage)
 const port = process.env.PORT || 3000; // Utilise le port du .env ou 3000 par défaut
 const connectDB = require("./config/db");
-connectDB(process.env.MONGODB_URI);
+connectDB(process.env.MONGO_URI);
 
 
 // Importer les fichiers de routes
