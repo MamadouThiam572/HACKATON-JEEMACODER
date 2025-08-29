@@ -7,15 +7,15 @@ console.log('JWT_SECRET from .env:', process.env.JWT_SECRET); // Debugging JWT_S
 
 const app = express();
 app.use(cors({ origin: '*' })); // Utilisation du middleware cors pour autoriser toutes les origines (pour le débogage)
-const port = process.env.PORT || 3000; // Utilise le port du .env ou 3000 par défaut
-const connectDB = require("./config/db");
+const port = process.env.PORT || 3000; // Use port from .env or 3000 by default
+const connectDB = require("./config/db"); // Original path
 connectDB(process.env.MONGO_URI);
 
 
 // Importer les fichiers de routes
-const userRoutes = require('./routes/userRoutes');
-const articleRoutes = require('./routes/articleRoutes');
-const commentRoutes = require('./routes/commentRoutes');
+const userRoutes = require('./routes/userRoutes'); // Original path
+const articleRoutes = require('./routes/articleRoutes'); // Original path
+const commentRoutes = require('./routes/commentRoutes'); // Original path
 
 // Middleware pour permettre à Express de lire le JSON
 app.use(express.json());
