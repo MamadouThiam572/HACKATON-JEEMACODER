@@ -22,12 +22,12 @@ export default function Article() {
   const fetchArticleAndComments = async () => {
     try {
       const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-      const articleResponse = await axios.get(`http://localhost:3002/api/articles/${id}`, config);
+      const articleResponse = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/articles/${id}`, config);
       setArticle(articleResponse.data);
       setIsLiked(articleResponse.data.isLiked);
       setLikesCount(articleResponse.data.likesCount);
 
-      const commentsResponse = await axios.get(`http://localhost:3002/api/comments/article/${id}`);
+      const commentsResponse = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/comments/article/${id}`);
       setComments(commentsResponse.data);
     } catch (err) {
       setError(err);
@@ -45,7 +45,7 @@ export default function Article() {
     if (!user || !token) return alert("Veuillez vous connecter pour aimer un article.");
     try {
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.post(`http://localhost:3002/api/articles/${id}/like`, {}, config);
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/articles/${id}/like`, {}, config);
       setIsLiked(response.data.liked);
       setLikesCount(prev => response.data.liked ? prev + 1 : prev - 1);
     } catch (err) {
@@ -59,7 +59,7 @@ export default function Article() {
     if (!user || !token) return alert("Veuillez vous connecter pour commenter.");
     try {
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.post("http://localhost:3002/api/comments", { content: newComment, article: id }, config);
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/comments`, { content: newComment, article: id }, config);
       setComments([response.data, ...comments]);
       setNewComment("");
     } catch (err) {
@@ -71,7 +71,7 @@ export default function Article() {
     if (!user || !token) return alert("Veuillez vous connecter pour aimer un commentaire.");
     try {
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.post(`http://localhost:3002/api/comments/${commentId}/like`, {}, config);
+      const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/comments/${commentId}/like`, {}, config);
       setComments(comments.map(c => c._id === commentId ? response.data : c));
     } catch (err) {
       console.error("Erreur lors du like du commentaire:", err);
@@ -86,7 +86,7 @@ export default function Article() {
     if (!editingComment || !editingComment.content.trim()) return;
     try {
         const config = { headers: { Authorization: `Bearer ${token}` } };
-        const response = await axios.put(`http://localhost:3002/api/comments/${editingComment.id}`, { content: editingComment.content }, config);
+        const response = await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/comments/${editingComment.id}`, { content: editingComment.content }, config);
         setComments(comments.map(c => c._id === editingComment.id ? response.data : c));
         setEditingComment(null); // Exit editing mode
     } catch (err) {

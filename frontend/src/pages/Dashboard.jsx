@@ -24,7 +24,7 @@ export default function Dashboard() {
         return;
       }
       try {
-        const response = await axios.get("http://localhost:3002/api/articles");
+        const response = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/articles`);
         const userArticles = response.data.filter(
           (article) => article.author._id === user._id
         );
@@ -59,12 +59,12 @@ export default function Dashboard() {
     try {
       if (editingArticleId) {
         // Update
-        const response = await axios.put(`http://localhost:3002/api/articles/${editingArticleId}`, articleData, config);
+        const response = await axios.put(`${import.meta.env.VITE_APP_API_URL}/api/articles/${editingArticleId}`, articleData, config);
         setArticles(articles.map(a => a._id === editingArticleId ? response.data : a));
         alert("Article mis à jour avec succès !");
       } else {
         // Create
-        const response = await axios.post("http://localhost:3002/api/articles", articleData, config);
+        const response = await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/articles`, articleData, config);
         setArticles([response.data, ...articles]);
         alert("Article créé avec succès !");
       }

@@ -22,7 +22,7 @@ export default function Profile() {
         const config = { headers: { Authorization: `Bearer ${token}` } };
         
         // Fetch user profile
-        const profileResponse = await axios.get("http://localhost:3002/api/users/profile", config);
+        const profileResponse = await axios.get(`${import.meta.env.VITE_APP_API_URL}/api/users/profile`, config);
         setProfile(profileResponse.data);
 
         // Fetch all articles and filter
